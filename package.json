@@ -1,0 +1,42 @@
+{
+  "name": "placementprep-ai",
+  "version": "1.0.0",
+  "description": "Full-Stack GenAI Interview Preparation Platform using LangChain.js, ChromaDB, MongoDB, Express and Vanilla JS",
+  "type": "module",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "genai",
+    "rag",
+    "langchain",
+    "chromadb",
+    "mongodb",
+    "interview-preparation",
+    "express"
+  ],
+  "author": "PlacementPrep AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "@langchain/core": "^0.3.40",
+    "@langchain/openai": "^0.4.4",
+    "chromadb": "^1.10.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "langchain": "^0.3.19",
+    "mongoose": "^8.12.1",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0",
+    "vitest": "^3.0.7"
+  }
+}

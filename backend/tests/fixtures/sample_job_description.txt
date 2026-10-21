@@ -1,0 +1,27 @@
+Software Engineer - Backend & Full Stack
+Company: CloudScale Technologies
+Location: Remote / New York, NY
+Experience: 0-2 years (New Graduates welcome)
+
+About the Role:
+We are seeking a talented Software Engineer to join our core backend platform team. You will build resilient, distributed RESTful microservices, optimize database queries, and design real-time data pipelines.
+
+Key Responsibilities:
+- Design, implement, and maintain high-performance REST APIs and microservices in Node.js and Express.
+- Work closely with MongoDB and Redis caching layers to ensure low-latency data access.
+- Implement robust unit, integration, and end-to-end tests to maintain high code reliability.
+- Collaborate with frontend engineers to integrate responsive client interfaces.
+- Participate in architectural reviews, incident response, and performance profiling.
+
+Required Technical Skills:
+- JavaScript / TypeScript proficiency (ES6+ standards)
+- Backend development experience with Node.js and Express.js
+- Database design and optimization with MongoDB or PostgreSQL
+- RESTful API design principles and authentication mechanisms (JWT / Sessions)
+- Version control using Git and collaborative workflows
+
+Preferred Qualifications:
+- Familiarity with Redis in-memory caching and caching strategies
+- Basic understanding of Docker containerization and CI/CD pipelines
+- Knowledge of Data Structures, Algorithms, and System Design fundamentals
+- Exposure to Vector Databases (ChromaDB) or LLM application development
