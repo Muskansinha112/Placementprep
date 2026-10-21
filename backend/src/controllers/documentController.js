@@ -57,10 +57,15 @@ export async function uploadDocument(req, res, next) {
       await studyDoc.save();
     } catch (chromaError) {
       console.error('[DocumentController] ChromaDB indexing error:', chromaError.message);
-      studyDoc.status = 'ready'; // Mark as ready so user can still reference it in local dev
+      studyDoc.status = 'failed';
       studyDoc.chunkCount = chunks.length;
-      studyDoc.error = `Vector store note: ${chromaError.message}`;
+      studyDoc.error = 'Vector indexing failed. Check ChromaDB and try uploading the document again.';
       await studyDoc.save();
+      return res.status(503).json({
+        success: false,
+        error: 'The document was uploaded but could not be indexed. Check that ChromaDB is available, then delete this failed record and retry.',
+        data: studyDoc,
+      });
     }
 
     return res.status(201).json({

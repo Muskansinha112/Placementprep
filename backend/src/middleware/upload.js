@@ -28,7 +28,9 @@ export const resumeUpload = multer({
     if (ext === '.pdf') {
       cb(null, true);
     } else {
-      cb(new Error('Only PDF resume files (.pdf) are supported.'));
+      const error = new Error('Only PDF resume files (.pdf) are supported.');
+      error.status = 400;
+      cb(error);
     }
   },
 });
@@ -42,7 +44,9 @@ export const documentUpload = multer({
     if (allowed.includes(ext)) {
       cb(null, true);
     } else {
-      cb(new Error(`Unsupported file type. Allowed formats: ${allowed.join(', ')}`));
+      const error = new Error(`Unsupported file type. Allowed formats: ${allowed.join(', ')}`);
+      error.status = 400;
+      cb(error);
     }
   },
 });

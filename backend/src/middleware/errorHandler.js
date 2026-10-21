@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
 import multer from 'multer';
+import { config } from '../config/env.js';
 
 /**
  * Centralized REST error handler middleware.
@@ -30,7 +31,7 @@ export function errorHandler(err, req, res, next) {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({
         success: false,
-        error: 'File too large. Maximum allowed size is 10MB.',
+        error: `File too large. Maximum allowed size is ${Math.round(config.maxUploadSize / (1024 * 1024))}MB.`,
       });
     }
     return res.status(400).json({

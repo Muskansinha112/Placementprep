@@ -1,531 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlacementPrep AI — Full-Stack GenAI Technical Interview Platform</title>
+  <meta name="theme-color" content="#202224">
+  <title>PlacementPrep AI — Interview practice, made simple</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="simple-app">
   <div class="app-layout">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">⚡</span>
-          <div class="logo-text">
-            <h2>PlacementPrep<span>AI</span></h2>
-            <span class="subtext">GenAI Career Suite</span>
-          </div>
-        </div>
-      </div>
+    <aside class="sidebar simple-sidebar">
+      <a class="logo" href="#home" aria-label="PlacementPrep AI home" onclick="switchTab('dashboard'); return false;">
+        <span class="logo-icon">✳</span>
+        <span class="logo-text"><strong>PlacementPrep</strong><small>interview prep, made simple</small></span>
+      </a>
 
-      <nav class="nav-menu">
-        <button class="nav-item active" data-tab="dashboard">
-          <span class="nav-icon">📊</span>
-          <span>Dashboard</span>
-        </button>
-        <button class="nav-item" data-tab="resume">
-          <span class="nav-icon">📄</span>
-          <span>Resume Analyzer</span>
-        </button>
-        <button class="nav-item" data-tab="job">
-          <span class="nav-icon">💼</span>
-          <span>JD Analyzer & Match</span>
-        </button>
-        <button class="nav-item" data-tab="interview">
-          <span class="nav-icon">🎯</span>
-          <span>Interview Practice</span>
-        </button>
-        <button class="nav-item" data-tab="study-assistant">
-          <span class="nav-icon">📚</span>
-          <span>RAG Study Assistant</span>
-          <span class="badge-mini">RAG</span>
-        </button>
-        <button class="nav-item" data-tab="analytics">
-          <span class="nav-icon">📈</span>
-          <span>Performance Analytics</span>
-        </button>
-        <button class="nav-item" data-tab="study-plan">
-          <span class="nav-icon">📅</span>
-          <span>Personalized Study Plan</span>
-        </button>
-        <button class="nav-item" data-tab="history">
-          <span class="nav-icon">🕒</span>
-          <span>Interview History</span>
-        </button>
+      <button class="btn new-practice" type="button" onclick="switchTab('interview')"><span>＋</span> New practice</button>
+
+      <div class="side-label">YOUR PREP</div>
+      <nav class="nav-menu" aria-label="Main navigation">
+        <button class="nav-item active" type="button" data-tab="dashboard"><span class="nav-icon">⌂</span><span>Home</span></button>
+        <button class="nav-item" type="button" data-tab="resume"><span class="nav-icon">▤</span><span>My resume</span></button>
+        <button class="nav-item" type="button" data-tab="interview"><span class="nav-icon">◷</span><span>Practice interview</span></button>
+        <button class="nav-item" type="button" data-tab="study-assistant"><span class="nav-icon">▧</span><span>Study notes</span></button>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="system-status" id="system-status-indicator">
-          <span class="status-dot online"></span>
-          <span class="status-label">System Active</span>
-        </div>
-        <div class="user-profile-badge">
-          <div class="avatar">AR</div>
-          <div class="user-details">
-            <span class="user-name">Alex Rivers</span>
-            <span class="user-role">CS Candidate '26</span>
-          </div>
-        </div>
+      <div class="sidebar-spacer"></div>
+      <div class="side-help"><span class="help-mark">?</span><span><strong>Keep it simple</strong><small>Resume → practice → improve</small></span></div>
+      <div class="user-profile-badge simple-user">
+        <div class="avatar">S</div>
+        <div class="user-details"><span class="user-name">Student</span><span class="user-role">Your prep space</span></div>
+        <span class="user-menu-mark">⌄</span>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Top Bar -->
-      <header class="topbar">
-        <div class="page-title-area">
-          <h1 id="page-title">Dashboard Overview</h1>
-          <p id="page-subtitle">Track your interview readiness, AI diagnostics, and study goals.</p>
-        </div>
+    <main class="main-content simple-main">
+      <header class="topbar simple-topbar">
+        <div class="page-title-area"><h1 id="page-title">New session</h1><p id="page-subtitle">A focused space to prepare for your next interview.</p></div>
         <div class="topbar-actions">
-          <div class="status-pills">
-            <span class="pill" id="pill-db">Mongo: <strong class="text-success">Connected</strong></span>
-            <span class="pill" id="pill-chroma">Chroma: <strong class="text-accent">Active</strong></span>
-            <span class="pill" id="pill-llm">LangChain: <strong>Ready</strong></span>
-          </div>
-          <button class="btn btn-outline btn-sm" id="btn-refresh-status" title="Refresh Service Status">
-            🔄 Refresh
-          </button>
+          <span class="pill" id="pill-db">Database <strong>Checking</strong></span>
+          <button class="btn btn-outline btn-sm" id="btn-refresh-status" type="button" title="Refresh service status">↻</button>
         </div>
       </header>
 
-      <!-- View Container -->
-      <div class="content-body">
-
-        <!-- TAB 1: DASHBOARD -->
-        <section id="tab-dashboard" class="tab-pane active">
-          <!-- Quick Stat Cards -->
-          <div class="stat-grid">
-            <div class="card stat-card">
-              <div class="stat-header">
-                <span class="stat-title">Interview Attempts</span>
-                <span class="stat-icon">🎯</span>
-              </div>
-              <div class="stat-value" id="dash-total-attempts">0</div>
-              <div class="stat-footer">Questions scored by AI rubric</div>
-            </div>
-
-            <div class="card stat-card">
-              <div class="stat-header">
-                <span class="stat-title">Average Score</span>
-                <span class="stat-icon">⭐</span>
-              </div>
-              <div class="stat-value" id="dash-avg-score">--<span class="unit">/10</span></div>
-              <div class="stat-footer">Across all technical topics</div>
-            </div>
-
-            <div class="card stat-card">
-              <div class="stat-header">
-                <span class="stat-title">Indexed Study Docs</span>
-                <span class="stat-icon">📑</span>
-              </div>
-              <div class="stat-value" id="dash-docs-count">0</div>
-              <div class="stat-footer">Embedded into ChromaDB RAG</div>
-            </div>
-
-            <div class="card stat-card">
-              <div class="stat-header">
-                <span class="stat-title">Study Plan Progress</span>
-                <span class="stat-icon">🚀</span>
-              </div>
-              <div class="stat-value" id="dash-plan-progress">0%</div>
-              <div class="stat-footer" id="dash-plan-status">No active plan</div>
-            </div>
+      <div class="content-body simple-content">
+        <section id="tab-dashboard" class="tab-pane active welcome-view">
+          <div class="welcome-copy">
+            <span class="eyebrow"><span>✦</span> YOUR INTERVIEW WORKSPACE</span>
+            <h2>One step closer<br>to <span>your next offer.</span></h2>
+            <p>Start with your resume, practice a few questions, and use your own notes when you need a hand.</p>
           </div>
-
-          <!-- Dashboard Action Banner -->
-          <div class="card banner-card">
-            <div class="banner-content">
-              <h3>Get Interview-Ready in 3 Steps</h3>
-              <p>Upload your PDF resume, paste target job descriptions, and let PlacementPrep AI tailor interview questions and grounded study guides.</p>
-              <div class="banner-buttons">
-                <button class="btn btn-primary" onclick="switchTab('resume')">Upload Resume</button>
-                <button class="btn btn-secondary" onclick="switchTab('job')">Analyze Job Description</button>
-                <button class="btn btn-accent" onclick="switchTab('interview')">Start Practice Session</button>
-              </div>
-            </div>
-            <div class="banner-visual">
-              <div class="visual-badge">
-                <span class="badge-icon">🤖</span>
-                <span>LangChain + ChromaDB</span>
-              </div>
-            </div>
+          <div class="start-steps">
+            <button class="step-card" type="button" onclick="switchTab('resume')"><span class="step-number">01</span><span class="step-icon">▤</span><strong>Add your resume</strong><small>We’ll pull out your skills and projects.</small><span class="step-arrow">↗</span></button>
+            <button class="step-card" type="button" onclick="switchTab('interview')"><span class="step-number">02</span><span class="step-icon">◷</span><strong>Practice a question</strong><small>Get questions based on your role.</small><span class="step-arrow">↗</span></button>
+            <button class="step-card" type="button" onclick="switchTab('study-assistant')"><span class="step-number">03</span><span class="step-icon">▧</span><strong>Ask your study notes</strong><small>Upload notes and get grounded answers.</small><span class="step-arrow">↗</span></button>
           </div>
-
-          <!-- Two-Column Section: Topic Strengths & Recent Activity -->
-          <div class="grid-2-col">
-            <div class="card">
-              <div class="card-header">
-                <h3>Top Technical Topics</h3>
-                <span class="badge badge-subtle">Real DB Metrics</span>
-              </div>
-              <div class="card-body" id="dash-topic-bars">
-                <div class="empty-state">
-                  <p>No questions answered yet. Start an interview session to see topic analytics!</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-header">
-                <h3>Recent Evaluated Answers</h3>
-                <button class="btn-text" onclick="switchTab('history')">View all</button>
-              </div>
-              <div class="card-body" id="dash-recent-list">
-                <div class="empty-state">
-                  <p>No practice answers recorded yet.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <form id="quick-practice-form" class="quick-start">
+            <span class="quick-spark">✦</span>
+            <input id="quick-role" type="text" placeholder="What role are you preparing for?" aria-label="Target role">
+            <button type="submit" class="quick-submit" aria-label="Start practice">↑</button>
+          </form>
+          <p class="quiet-note">No pressure. You can start with one question.</p>
         </section>
 
-        <!-- TAB 2: RESUME ANALYZER -->
-        <section id="tab-resume" class="tab-pane">
-          <div class="grid-2-col-asym">
-            <!-- Upload Panel -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Upload PDF Resume</h3>
-                <span class="badge badge-info">PDF Only</span>
-              </div>
+        <section id="tab-resume" class="tab-pane feature-view">
+          <div class="feature-intro"><span class="eyebrow">STEP 01 · YOUR BACKGROUND</span><h2>Start with your resume.</h2><p>Upload a PDF and review the skills and projects we find. Missing details stay blank.</p></div>
+          <div class="resume-layout">
+            <div class="card simple-card">
+              <div class="card-header"><h3>Your resume</h3><span class="badge badge-info">PDF · 10 MB max</span></div>
               <div class="card-body">
                 <form id="form-upload-resume" class="upload-box-form">
-                  <div class="drop-zone" id="resume-drop-zone">
-                    <span class="drop-icon">📁</span>
-                    <h4>Drag & Drop your resume here</h4>
-                    <p>or click to browse files (Max 10MB)</p>
-                    <input type="file" id="resume-file-input" accept=".pdf" class="file-input-hidden">
-                    <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('resume-file-input').click()">Select PDF</button>
+                  <div class="drop-zone" id="resume-drop-zone" role="button" tabindex="0" aria-label="Choose a PDF resume">
+                    <span class="drop-icon">↑</span><h4>Drop your PDF here</h4><p>or choose a file from your computer</p>
+                    <input type="file" id="resume-file-input" accept=".pdf,application/pdf" class="file-input-hidden">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('resume-file-input').click()">Choose PDF</button>
                   </div>
-                  <div id="resume-file-info" class="file-preview-bar hidden">
-                    <span id="resume-filename">resume.pdf</span>
-                    <button type="button" class="btn-icon text-danger" id="resume-file-remove">✕</button>
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-block" id="btn-submit-resume">
-                    Extract Structured Profile via AI
-                  </button>
+                  <div id="resume-file-info" class="file-preview-bar hidden"><span id="resume-filename">resume.pdf</span><button type="button" class="btn-icon text-danger" id="resume-file-remove" aria-label="Remove selected file">×</button></div>
+                  <button type="submit" class="btn btn-primary btn-block" id="btn-submit-resume">Analyze resume</button>
                 </form>
-
-                <div class="info-note">
-                  <span class="note-icon">💡</span>
-                  <span>Uses <strong>pdf-parse</strong> for text extraction, <strong>LangChain.js</strong> for extraction, and <strong>Zod</strong> for strict schema validation. Stored in MongoDB.</span>
-                </div>
+                <p class="quiet-note left-note">Your resume is stored privately for this prep workspace.</p>
               </div>
             </div>
-
-            <!-- Profile Preview Card -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Extracted Structured Profile</h3>
-                <span class="badge badge-success" id="resume-status-badge">Awaiting Upload</span>
-              </div>
-              <div class="card-body profile-viewer" id="resume-profile-viewer">
-                <div class="empty-state">
-                  <span class="empty-icon">📄</span>
-                  <p>Upload a resume to view parsed education, technical skills, projects, and work experience.</p>
-                </div>
-              </div>
+            <div class="card simple-card">
+              <div class="card-header"><h3>What we found</h3><span class="badge badge-subtle" id="resume-status-badge">Waiting for resume</span></div>
+              <div class="card-body profile-viewer" id="resume-profile-viewer"><div class="empty-state"><span class="empty-icon">▤</span><p>Your extracted skills, education, and projects will appear here.</p></div></div>
             </div>
           </div>
         </section>
 
-        <!-- TAB 3: JOB DESCRIPTION ANALYZER -->
-        <section id="tab-job" class="tab-pane">
-          <div class="grid-2-col-asym">
-            <!-- Job Form -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Target Job Description</h3>
-                <span class="badge badge-info">Input JD</span>
-              </div>
+        <section id="tab-interview" class="tab-pane feature-view">
+          <div class="feature-intro"><span class="eyebrow">STEP 02 · PRACTICE</span><h2>Let’s practice.</h2><p>Choose a role and level. Start with three focused questions.</p></div>
+          <div class="card simple-card generator-card">
+            <form id="form-generate-interview" class="simple-generator">
+              <label class="form-group"><span>Target role</span><input type="text" id="int-role" class="form-control" value="Software Engineer" placeholder="e.g. Frontend Developer" required></label>
+              <label class="form-group"><span>Difficulty</span><select id="int-difficulty" class="form-control"><option value="Beginner">Beginner</option><option value="Intermediate" selected>Intermediate</option><option value="Advanced">Advanced</option></select></label>
+              <input type="hidden" id="int-count" value="3">
+              <button type="submit" class="btn btn-primary" id="btn-generate-questions">Generate questions <span>→</span></button>
+            </form>
+          </div>
+          <div id="interview-session-container"><div class="empty-state card simple-card practice-empty"><span class="empty-icon">◷</span><h3>Your questions will show up here</h3><p>Answer at your own pace. You’ll get practical feedback after each response.</p></div></div>
+        </section>
+
+        <section id="tab-study-assistant" class="tab-pane feature-view study-view">
+          <div class="feature-intro"><span class="eyebrow">STEP 03 · YOUR STUDY NOTES</span><h2>Ask what you’re studying.</h2><p>Upload a note, then ask a question. Answers point back to the source.</p></div>
+          <div class="study-layout">
+            <aside class="card simple-card study-library">
+              <div class="card-header"><h3>Your notes</h3></div>
               <div class="card-body">
-                <form id="form-analyze-job">
-                  <div class="form-group">
-                    <label for="jd-title">Job Title / Target Role *</label>
-                    <input type="text" id="jd-title" class="form-control" placeholder="e.g. Full-Stack Software Engineer Intern" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="jd-company">Company (Optional)</label>
-                    <input type="text" id="jd-company" class="form-control" placeholder="e.g. Stripe, Google, Acme Tech">
-                  </div>
-                  <div class="form-group">
-                    <label for="jd-text">Job Description Content *</label>
-                    <textarea id="jd-text" class="form-control" rows="8" placeholder="Paste job requirements, required technologies, responsibilities, and qualifications..." required></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-block" id="btn-submit-job">
-                    Analyze JD & Compare with Resume
-                  </button>
-                </form>
+                <form id="form-upload-doc" class="simple-doc-form"><label for="study-doc-file" class="visually-hidden">Choose study notes</label><input type="file" id="study-doc-file" accept=".pdf,.txt,.md" class="form-control"><button type="submit" class="btn btn-outline btn-sm" id="btn-upload-doc">Add notes</button></form>
+                <small class="text-muted">PDF, TXT, or Markdown</small>
+                <div id="study-docs-list" class="doc-list"><div class="loading-spinner">Loading your notes…</div></div>
               </div>
-            </div>
-
-            <!-- Analysis & Comparison Results -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Skill Match & Gap Analysis</h3>
-                <div class="match-score-badge" id="jd-match-score-badge">Match: --%</div>
-              </div>
-              <div class="card-body" id="jd-analysis-results">
-                <div class="empty-state">
-                  <span class="empty-icon">💼</span>
-                  <p>Paste a job description to extract required skills and compare against your uploaded resume.</p>
-                </div>
-              </div>
+            </aside>
+            <div class="card simple-card chat-card">
+              <div class="chat-messages" id="chat-messages"><div class="chat-bubble ai"><div class="bubble-sender">Prep assistant</div><div class="bubble-text">Hi! Add your notes, then ask me to explain a topic or help you review. I’ll tell you when your notes don’t have enough information.</div></div></div>
+              <div class="chat-input-area"><form id="form-chat" class="chat-input-form"><textarea id="chat-input" class="form-control" rows="2" placeholder="Ask a question about your notes…" required></textarea><button type="submit" class="btn btn-primary" id="btn-send-chat" aria-label="Send question">↑</button></form><p class="quiet-note">Answers are based on the study notes you uploaded.</p></div>
             </div>
           </div>
         </section>
-
-        <!-- TAB 4: INTERVIEW PRACTICE -->
-        <section id="tab-interview" class="tab-pane">
-          <!-- Question Generator Controls -->
-          <div class="card mb-4">
-            <div class="card-header">
-              <h3>Generate Custom Interview Session</h3>
-              <span class="badge badge-accent">LangChain Structured Output</span>
-            </div>
-            <div class="card-body">
-              <form id="form-generate-interview" class="filter-bar-form">
-                <div class="form-row">
-                  <div class="form-group col">
-                    <label for="int-role">Target Role</label>
-                    <input type="text" id="int-role" class="form-control" value="Software Engineer" required>
-                  </div>
-                  <div class="form-group col">
-                    <label for="int-difficulty">Difficulty</label>
-                    <select id="int-difficulty" class="form-control">
-                      <option value="Beginner">Beginner (Foundations & Syntax)</option>
-                      <option value="Intermediate" selected>Intermediate (Core CS & Real-world)</option>
-                      <option value="Advanced">Advanced (System Design & Concurrency)</option>
-                      <option value="Mixed">Mixed Calibration</option>
-                    </select>
-                  </div>
-                  <div class="form-group col">
-                    <label for="int-count">Questions Count</label>
-                    <select id="int-count" class="form-control">
-                      <option value="3">3 Questions (Quick Prep)</option>
-                      <option value="5" selected>5 Questions (Standard Mock)</option>
-                      <option value="8">8 Questions (Deep Dive)</option>
-                    </select>
-                  </div>
-                  <div class="form-group col btn-col">
-                    <button type="submit" class="btn btn-accent btn-block" id="btn-generate-questions">
-                      ⚡ Generate Questions
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <!-- Practice Session Interactive Card -->
-          <div id="interview-session-container">
-            <div class="empty-state card p-5 text-center">
-              <span class="empty-icon">🎯</span>
-              <h3>No Active Interview Session</h3>
-              <p>Configure role and difficulty above and click <strong>Generate Questions</strong> to start practicing!</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- TAB 5: RAG STUDY ASSISTANT -->
-        <section id="tab-study-assistant" class="tab-pane">
-          <div class="grid-2-col-asym">
-            <!-- Left: Study Documents Manager -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Study Documents & Notes</h3>
-                <span class="badge badge-info">ChromaDB Store</span>
-              </div>
-              <div class="card-body">
-                <form id="form-upload-doc" class="mb-4">
-                  <div class="file-picker-group">
-                    <input type="file" id="study-doc-file" accept=".pdf,.txt,.md" class="form-control">
-                    <button type="submit" class="btn btn-outline btn-sm" id="btn-upload-doc">Upload & Index</button>
-                  </div>
-                  <small class="text-muted">Supported: PDF, TXT, Markdown notes. Chunks & vectors will be indexed to ChromaDB.</small>
-                </form>
-
-                <h4>Indexed Knowledge Base</h4>
-                <div id="study-docs-list" class="doc-list">
-                  <div class="loading-spinner">Loading indexed materials...</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right: Grounded RAG Chat Interface -->
-            <div class="card chat-card">
-              <div class="card-header">
-                <div>
-                  <h3>RAG Technical Mentor</h3>
-                  <p class="subtext">Strictly grounded in your uploaded notes with exact page and chunk citations.</p>
-                </div>
-                <button class="btn btn-outline btn-xs" id="btn-clear-chat">Clear Chat</button>
-              </div>
-              <div class="chat-messages" id="chat-messages">
-                <div class="chat-bubble ai">
-                  <div class="bubble-sender">AI Study Assistant 🤖</div>
-                  <div class="bubble-text">
-                    Hello! I am your RAG-powered technical study assistant. Ask me questions about your uploaded study notes, interview cheat sheets, or documentation. Every answer will be strictly grounded with source citations!
-                  </div>
-                </div>
-              </div>
-              <div class="chat-input-area">
-                <form id="form-chat" class="chat-input-form">
-                  <textarea id="chat-input" class="form-control" rows="2" placeholder="Ask a question from your study materials (e.g. 'How does Redis handle master-replica replication?')..." required></textarea>
-                  <button type="submit" class="btn btn-primary" id="btn-send-chat">Ask RAG</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- TAB 6: PERFORMANCE ANALYTICS -->
-        <section id="tab-analytics" class="tab-pane">
-          <div class="analytics-layout">
-            <div class="grid-3-col mb-4">
-              <div class="card p-3">
-                <h4 class="text-muted">Questions Practiced</h4>
-                <div class="metric-number" id="an-total-q">0</div>
-                <small>Actual MongoDB evaluation attempts</small>
-              </div>
-              <div class="card p-3">
-                <h4 class="text-muted">Overall Average Score</h4>
-                <div class="metric-number text-accent" id="an-avg-score">0.0<span class="unit">/10</span></div>
-                <small>4-Criterion Rubric Average</small>
-              </div>
-              <div class="card p-3">
-                <h4 class="text-muted">Weak Topics Flagged</h4>
-                <div class="metric-number text-danger" id="an-weak-count">0</div>
-                <small>Average score &lt; 6.0</small>
-              </div>
-            </div>
-
-            <!-- Rubric Breakdown -->
-            <div class="card mb-4">
-              <div class="card-header">
-                <h3>Rubric Component Breakdown</h3>
-                <span class="badge badge-subtle">0–10 Evaluation Scale</span>
-              </div>
-              <div class="card-body">
-                <div class="rubric-bars-grid" id="an-rubric-breakdown">
-                  <!-- Rendered via JS -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Topic Strengths and Weaknesses -->
-            <div class="grid-2-col mb-4">
-              <div class="card">
-                <div class="card-header">
-                  <h3>Topic Performance</h3>
-                  <span class="badge badge-info">Lowest to Highest</span>
-                </div>
-                <div class="card-body" id="an-topic-performance-list">
-                  <div class="empty-state">No topic evaluation data yet.</div>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-header">
-                  <h3>Suggested Revision Topics</h3>
-                  <span class="badge badge-warning">AI Prioritized</span>
-                </div>
-                <div class="card-body" id="an-revision-topics-list">
-                  <div class="empty-state">Answer questions to get prioritized revision suggestions.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Score Trend Over Time -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Score Progression Timeline</h3>
-              </div>
-              <div class="card-body" id="an-score-timeline">
-                <div class="empty-state">Practice more questions to see your progress graph.</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- TAB 7: STUDY PLANS -->
-        <section id="tab-study-plan" class="tab-pane">
-          <div class="card mb-4">
-            <div class="card-header">
-              <h3>Generate Personalized Study Plan</h3>
-              <span class="badge badge-accent">Adaptive Curriculum</span>
-            </div>
-            <div class="card-body">
-              <form id="form-generate-plan" class="filter-bar-form">
-                <div class="form-row">
-                  <div class="form-group col">
-                    <label for="plan-role">Target Role</label>
-                    <input type="text" id="plan-role" class="form-control" value="Software Engineer" required>
-                  </div>
-                  <div class="form-group col">
-                    <label for="plan-days">Duration</label>
-                    <select id="plan-days" class="form-control">
-                      <option value="7" selected>7-Day Sprint</option>
-                      <option value="14">14-Day Intensive</option>
-                      <option value="30">30-Day Comprehensive</option>
-                    </select>
-                  </div>
-                  <div class="form-group col btn-col">
-                    <button type="submit" class="btn btn-primary btn-block" id="btn-create-plan">
-                      📅 Generate Study Plan
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div id="study-plan-container">
-            <div class="empty-state card p-5 text-center">
-              <span class="empty-icon">📅</span>
-              <h3>No Study Plan Generated Yet</h3>
-              <p>Generate a customized study plan to get daily modules, reading activities, and practice questions.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- TAB 8: INTERVIEW HISTORY -->
-        <section id="tab-history" class="tab-pane">
-          <div class="card">
-            <div class="card-header">
-              <h3>All Evaluated Interview Attempts</h3>
-              <span class="badge badge-subtle">MongoDB AnswerEvaluations</span>
-            </div>
-            <div class="card-body" id="history-container">
-              <div class="empty-state">
-                <p>No past interview evaluations found.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
       </div>
     </main>
   </div>
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- Scripts -->
-  <script src="/js/api.js"></script>
-  <script src="/js/dashboard.js"></script>
-  <script src="/js/resume.js"></script>
-  <script src="/js/job.js"></script>
-  <script src="/js/interview.js"></script>
-  <script src="/js/studyAssistant.js"></script>
-  <script src="/js/analytics.js"></script>
-  <script src="/js/studyPlan.js"></script>
-  <script src="/js/app.js"></script>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  <script type="module" src="/js/api.js"></script>
+  <script type="module" src="/js/resume.js"></script>
+  <script type="module" src="/js/interview.js"></script>
+  <script type="module" src="/js/studyAssistant.js"></script>
+  <script type="module" src="/js/app.js"></script>
 </body>
 </html>

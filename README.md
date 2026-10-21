@@ -17,6 +17,8 @@
 4. **Interactive Mock Interviews & 4-Criterion Standardized Rubrics** (0–10 rubric scoring with attempt comparison).
 5. **Real Database Performance Analytics & Adaptive Study Milestones**.
 
+The student-facing interface is intentionally kept focused on three tasks: review a resume, practice interview questions, and ask questions about uploaded study notes. The additional analytics, job comparison, and study-plan APIs remain available for future expansion without crowding the main screen.
+
 ---
 
 ## 🏗️ Architecture Diagram

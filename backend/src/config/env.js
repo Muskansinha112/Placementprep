@@ -22,5 +22,4 @@ export const config = {
   embeddingModel: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
   maxUploadSize: parseInt(process.env.MAX_UPLOAD_SIZE || `${10 * 1024 * 1024}`, 10), // 10MB
   uploadDir: path.resolve(__dirname, '../../../uploads'),
-  jwtSecret: process.env.SESSION_SECRET || process.env.JWT_SECRET || 'placementprep_jwt_secret_key_2026',
 };

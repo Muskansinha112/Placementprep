@@ -3,14 +3,10 @@
  */
 
 const TAB_TITLES = {
-  'dashboard': { title: 'Dashboard Overview', subtitle: 'Track your interview readiness, AI diagnostics, and study goals.' },
-  'resume': { title: 'Resume Analyzer', subtitle: 'Extract and review structured profile details from your PDF resume.' },
-  'job': { title: 'JD Analyzer & Gap Match', subtitle: 'Analyze target job descriptions and compare required skills with your resume.' },
-  'interview': { title: 'Personalized Interview Practice', subtitle: 'AI question generation and 4-criterion standardized rubric evaluations.' },
-  'study-assistant': { title: 'RAG Study Assistant', subtitle: 'Ask technical questions grounded strictly in your uploaded notes with citations.' },
-  'analytics': { title: 'Performance Analytics', subtitle: 'Real database metrics, topic strength diagnostics, and revision trends.' },
-  'study-plan': { title: 'Adaptive Study Plans', subtitle: 'Tailored study milestones and interactive checklist tracking.' },
-  'history': { title: 'Interview Evaluation History', subtitle: 'Review all past question answers and rubric score breakdowns.' },
+  'dashboard': { title: 'New session', subtitle: 'A focused space to prepare for your next interview.' },
+  'resume': { title: 'My resume', subtitle: 'Review the experience and skills you want to talk about.' },
+  'interview': { title: 'Practice interview', subtitle: 'A few useful questions, one answer at a time.' },
+  'study-assistant': { title: 'Study notes', subtitle: 'Get help grounded in the material you uploaded.' },
 };
 
 export function switchTab(tabId) {
@@ -165,14 +161,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const quickPracticeForm = document.getElementById('quick-practice-form');
+  if (quickPracticeForm) {
+    quickPracticeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const role = document.getElementById('quick-role')?.value.trim();
+      const roleInput = document.getElementById('int-role');
+      if (role && roleInput) roleInput.value = role;
+      switchTab('interview');
+      document.getElementById('form-generate-interview')?.requestSubmit();
+    });
+  }
+
   // Initialize feature modules
-  if (window.initDashboard) window.initDashboard();
   if (window.initResume) window.initResume();
-  if (window.initJob) window.initJob();
   if (window.initInterview) window.initInterview();
   if (window.initStudyAssistant) window.initStudyAssistant();
-  if (window.initAnalytics) window.initAnalytics();
-  if (window.initStudyPlan) window.initStudyPlan();
 
   // Initial health check
   checkSystemHealth();
