@@ -1,4 +1,8 @@
 node_modules/
+ai-service/.venv/
+ai-service/__pycache__/
+ai-service/tests/__pycache__/
+chroma_data/
 .env
 uploads/*
 !uploads/.gitkeep

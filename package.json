@@ -9,6 +9,8 @@
     "dev": "concurrently -k \"npm:dev:api\" \"npm:dev:web\"",
     "dev:api": "node --watch backend/src/server.js",
     "dev:web": "vite --config frontend/vite.config.js --host 0.0.0.0",
+    "setup:python": "python3 -m venv ai-service/.venv && ai-service/.venv/bin/python -m pip install -r ai-service/requirements.txt",
+    "dev:python": "ai-service/.venv/bin/python -m uvicorn app:app --app-dir ai-service --host 127.0.0.1 --port 8100 --reload",
     "build": "vite build --config frontend/vite.config.js",
     "test": "vitest run",
     "test:watch": "vitest",

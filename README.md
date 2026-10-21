@@ -41,7 +41,7 @@ flowchart TD
         Multer["Multer Upload Middleware (PDF / TXT / MD)"]
         
         subgraph Services["Core Application Services"]
-            PDF["pdf-parse Service"]
+            PDF["PDF extraction adapter"]
             ResumeService["Resume Extraction Engine"]
             JobService["JD Parsing & Deterministic Gap Matcher"]
             InterviewService["Interview Generator"]
@@ -58,6 +58,12 @@ flowchart TD
         end
     end
 
+    subgraph PythonService["Optional FastAPI document service"]
+        PyPDF["PyMuPDF PDF text extraction"]
+        PyAPI["FastAPI + Pydantic validation"]
+        PyAPI --> PyPDF
+    end
+
     subgraph Data["Persistent Data & Storage Stores"]
         MongoDB[(MongoDB Database\nResumeProfiles, JobDescriptions,\nInterviewSessions, Evaluations,\nStudyPlans, Users)]
         ChromaDB[(ChromaDB Vector Store\nplacementprep_study_materials\nSemantic Embeddings & Chunks)]
@@ -71,6 +77,7 @@ flowchart TD
     UI --> Router
     Router --> AuthMiddleware --> Services
     Multer --> PDF
+    PDF -. "AI_SERVICE_URL configured" .-> PyAPI
     Services --> MongoDB
     Services --> LLM
     PDF --> Splitter --> Embeddings --> VectorStore --> ChromaDB
@@ -88,7 +95,7 @@ flowchart TD
 | **GenAI & RAG** | LangChain.js (`@langchain/core`, `@langchain/openai`, `langchain`) | Chains, prompts, `RecursiveCharacterTextSplitter`, and structured outputs |
 | **Vector Store** | ChromaDB (`chromadb`) | Production vector database for storing chunks and semantic similarity queries |
 | **Database** | MongoDB with Mongoose ODM | Primary transactional data store for profiles, sessions, evaluations, and plans |
-| **Document Processing**| `pdf-parse`, `multer` | Robust PDF text extraction and strict multipart file validations |
+| **Document Processing**| FastAPI, Pydantic, PyMuPDF (optional); `pdf-parse`, `multer` fallback | Python handles PDF extraction when enabled; Node remains a no-setup default |
 | **Validation** | Zod | Runtime TypeScript-grade schema validation for API inputs and model outputs |
 | **Frontend** | React, Vite, CSS | Component-based student UI; Vite proxies API requests in development and builds static assets for Express |
 | **Testing** | Vitest, Supertest | Fast unit and integration test runner for ES Modules |
@@ -103,7 +110,7 @@ flowchart TD
 
 ### 2. 📄 Resume Analyzer
 - Supports direct PDF upload (drag-and-drop or file picker) with size limits (10MB).
-- Extracts text via `pdf-parse` and processes structured profiles through LangChain + Zod.
+- Extracts text via the optional Python FastAPI/PyMuPDF service (or Node `pdf-parse` by default), then processes structured profiles through LangChain + Zod.
 - Categorizes technical skills: Languages, Frameworks, Databases, Tools, Cloud/DevOps, and Core CS Concepts.
 - Displays personal information, verified education records, key projects, and internships.
 
@@ -212,7 +219,18 @@ npm start
 npm run dev
 ```
 
-Production serves the built React app at **`http://localhost:3000`**. Development serves the React app at **`http://localhost:5173`** and the Express API at port `3000`.
+### Optional: use Python for PDF extraction
+
+The FastAPI service handles PDF text extraction for both resume uploads and study PDFs. It validates file type/size and reports malformed or scanned PDFs. Express remains responsible for authentication/ownership, MongoDB, LangChain, and application workflows. If you skip this step, the app uses its existing Node `pdf-parse` implementation.
+
+```bash
+npm run setup:python
+npm run dev:python
+```
+
+Keep the Python service running in its own terminal. In `.env`, set `AI_SERVICE_URL=http://127.0.0.1:8100` and restart Express. Leave it blank to use Node-only PDF extraction. The service is internal and should not be exposed publicly; keep it bound to localhost in local development.
+
+Production serves the built React app at **`http://localhost:3000`**. Development serves the React app at **`http://localhost:5173`** and the Express API at port `3000`. The optional Python service listens at **`http://127.0.0.1:8100`**.
 
 ---
 
@@ -223,6 +241,15 @@ The test suite contains 28 automated tests covering schemas, chunking, rubric ev
 ```bash
 npm test
 ```
+
+Python PDF service tests (after installing `ai-service/requirements.txt`):
+
+```bash
+cd ai-service
+pytest
+```
+
+The Python service exposes `GET /health` and `POST /extract-pdf` (multipart field: `file`). Interactive API documentation is available at `http://127.0.0.1:8100/docs` while the local service is running.
 
 ### Test Coverage Highlights:
 - **`validators.test.js`**: Validates Zod schemas for profiles, JDs, questions, rubric scores, and study plans.

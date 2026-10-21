@@ -22,4 +22,6 @@ export const config = {
   embeddingModel: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
   maxUploadSize: parseInt(process.env.MAX_UPLOAD_SIZE || `${10 * 1024 * 1024}`, 10), // 10MB
   uploadDir: path.resolve(__dirname, '../../../uploads'),
+  // Optional FastAPI PDF extraction service. Leave empty to use the Node.js parser.
+  aiServiceUrl: process.env.AI_SERVICE_URL || '',
 };
