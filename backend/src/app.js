@@ -21,7 +21,7 @@ import studyPlanRoutes from './routes/studyPlanRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendDir = path.resolve(__dirname, '../../frontend');
+const frontendDir = path.resolve(__dirname, '../../frontend/dist');
 
 export const app = express();
 
@@ -68,7 +68,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/study-plans', studyPlanRoutes);
 
-// Serve vanilla frontend static files
+// Serve the production React build
 app.use(express.static(frontendDir));
 
 // Fallback to index.html for SPA client-side routing

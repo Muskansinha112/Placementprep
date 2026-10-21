@@ -1,6 +1,6 @@
 # PlacementPrep AI ⚡
 > **Full-Stack GenAI Technical Interview Preparation Platform**  
-> Powered by LangChain.js, ChromaDB, MongoDB, Express.js, and Vanilla Modern JavaScript.
+> Powered by React, Vite, LangChain.js, ChromaDB, MongoDB, and Express.js.
 
 [![Node.js Version](https://img.shields.io/badge/Node.js-v20%2B-green.svg)](https://nodejs.org/)
 [![Vitest](https://img.shields.io/badge/Tests-28%20Passing-brightgreen.svg)](https://vitest.dev/)
@@ -25,7 +25,7 @@ The student-facing interface is intentionally kept focused on three tasks: revie
 
 ```mermaid
 flowchart TD
-    subgraph Client["Frontend Client (Vanilla HTML5 / CSS3 / ES Modules)"]
+    subgraph Client["Frontend Client (React / Vite)"]
         UI[Interactive SaaS Dashboard]
         Tab1[Resume Analyzer]
         Tab2[JD Analyzer & Skill Match]
@@ -90,7 +90,7 @@ flowchart TD
 | **Database** | MongoDB with Mongoose ODM | Primary transactional data store for profiles, sessions, evaluations, and plans |
 | **Document Processing**| `pdf-parse`, `multer` | Robust PDF text extraction and strict multipart file validations |
 | **Validation** | Zod | Runtime TypeScript-grade schema validation for API inputs and model outputs |
-| **Frontend** | Vanilla HTML5, CSS3, ES JavaScript | High-performance, framework-free SaaS UI served directly via Express static middleware |
+| **Frontend** | React, Vite, CSS | Component-based student UI; Vite proxies API requests in development and builds static assets for Express |
 | **Testing** | Vitest, Supertest | Fast unit and integration test runner for ES Modules |
 
 ---
@@ -208,12 +208,11 @@ chroma run --path ./chroma_data --port 8000
 # Start in production mode:
 npm start
 
-# Or start with live file watching (dev mode):
+# Or start Express and Vite together (dev mode):
 npm run dev
 ```
 
-Open your browser to:
-👉 **`http://localhost:3000`**
+Production serves the built React app at **`http://localhost:3000`**. Development serves the React app at **`http://localhost:5173`** and the Express API at port `3000`.
 
 ---
 

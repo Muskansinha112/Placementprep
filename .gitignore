@@ -3,5 +3,7 @@ node_modules/
 uploads/*
 !uploads/.gitkeep
 coverage/
+frontend/dist/
+.vite/
 .DS_Store
 *.log
